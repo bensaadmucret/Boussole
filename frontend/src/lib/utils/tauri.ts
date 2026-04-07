@@ -32,3 +32,7 @@ export async function createApplication(data: any): Promise<Application> {
 export async function getApplications(): Promise<Application[]> {
   return await invoke('get_applications');
 }
+
+export async function updateApplicationStatus(id: number, status: string): Promise<Application> {
+  return await invoke('update_application_status', { id, status });
+}

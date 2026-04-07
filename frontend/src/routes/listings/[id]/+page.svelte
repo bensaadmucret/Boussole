@@ -1,16 +1,19 @@
 <script lang="ts">
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
-  import { ArrowLeft, Edit2, Trash2, Building2, MapPin, Banknote, Briefcase, Calendar, ExternalLink, Tag } from 'lucide-svelte';
+  import { ArrowLeft, Edit2, Trash2, Briefcase, Send, Building2, MapPin, Banknote, Calendar, ExternalLink, Tag } from 'lucide-svelte';
   import { onMount } from 'svelte';
-  import { getJobListings, deleteJobListing, checkDuplicateCompany, getExistingCompanyListings } from '$lib/utils/tauri';
+  import { getJobListings, deleteJobListing, checkDuplicateCompany, getExistingCompanyListings, createApplication } from '$lib/utils/tauri';
   import { listings } from '$lib/stores/listings';
+  import { applications } from '$lib/stores/applications';
   import type { JobListing } from '$lib/types';
   
   let id = $derived(parseInt($page.params.id ?? '0'));
   let listing = $derived($listings.find(l => l.id === id));
   let duplicates = $state<JobListing[]>([]);
   let showDeleteConfirm = $state(false);
+  let showApplyModal = $state(false);
+  let applying = $state(false);
   
   onMount(async () => {
     if ($listings.length === 0) {
@@ -55,6 +58,32 @@
       console.error('Failed to delete:', err);
     }
   }
+  
+  async function handleApply() {
+    if (!listing) return;
+    
+    applying = true;
+    try {
+      const newApp = await createApplication({
+        jobListingId: listing.id,
+        companyName: listing.companyName,
+        position: listing.title,
+        status: 'applied',
+        appliedDate: new Date().toISOString(),
+        notes: '',
+        contactEmail: '',
+        contactName: ''
+      });
+      
+      applications.update(apps => [newApp, ...apps]);
+      showApplyModal = false;
+      goto('/applications');
+    } catch (err) {
+      console.error('Failed to create application:', err);
+    } finally {
+      applying = false;
+    }
+  }
 </script>
 
 <div class="px-8 py-6 max-w-4xl">
@@ -84,6 +113,13 @@
       </div>
       
       <div class="flex items-center gap-2">
+        <button 
+          onclick={() => showApplyModal = true}
+          class="btn-primary flex items-center gap-2"
+        >
+          <Send class="w-4 h-4" />
+          <span>Postuler</span>
+        </button>
         <button class="btn-secondary flex items-center gap-2">
           <Edit2 class="w-4 h-4" />
           <span>Modifier</span>
@@ -235,6 +271,38 @@
               class="px-4 py-2 bg-red-600 text-white rounded-xl font-medium hover:bg-red-700 transition"
             >
               Supprimer
+            </button>
+          </div>
+        </div>
+      </div>
+    {/if}
+    
+    <!-- Modal Postuler -->
+    {#if showApplyModal}
+      <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-2xl p-6 max-w-md w-full mx-4">
+          <h3 class="text-lg font-bold text-gray-900 mb-2">Confirmer la candidature</h3>
+          <p class="text-gray-500 mb-4">Vous êtes sur le point de postuler chez <strong>{listing.companyName}</strong> pour le poste de <strong>{listing.title}</strong>.</p>
+          <p class="text-sm text-gray-400 mb-6">La candidature sera ajoutée à votre Kanban avec le statut "Candidatures envoyées".</p>
+          <div class="flex justify-end gap-3">
+            <button 
+              onclick={() => showApplyModal = false}
+              class="px-4 py-2 text-gray-600 font-medium hover:text-gray-800 transition"
+            >
+              Annuler
+            </button>
+            <button 
+              onclick={handleApply}
+              disabled={applying}
+              class="btn-primary flex items-center gap-2 disabled:opacity-50"
+            >
+              {#if applying}
+                <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                <span>Envoi...</span>
+              {:else}
+                <Send class="w-4 h-4" />
+                <span>Confirmer</span>
+              {/if}
             </button>
           </div>
         </div>

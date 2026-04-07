@@ -42,7 +42,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             job_listings::check_duplicate_company,
             job_listings::get_existing_company_listings,
             applications::create_application,
-            applications::get_applications
+            applications::get_applications,
+            applications::update_application_status
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

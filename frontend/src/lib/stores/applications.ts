@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import type { Application } from '../types';
 
-export const applications = writable([]);
-export const applicationFilter = writable('all');
+export const applications = writable<Application[]>([]);
+export const applicationFilter = writable<string>('all');

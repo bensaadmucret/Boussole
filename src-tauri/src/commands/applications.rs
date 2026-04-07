@@ -41,3 +41,29 @@ pub async fn get_applications() -> Result<Vec<Application>, String> {
     
     Ok(applications)
 }
+
+#[tauri::command]
+pub async fn update_application_status(id: i64, status: String) -> Result<Application, String> {
+    let pool = crate::get_db_pool();
+    
+    let application = sqlx::query_as::<_, Application>(
+        r#"
+        UPDATE applications 
+        SET status = ?,
+            response_date = CASE 
+                WHEN ? IN ('rejected', 'offer', 'withdrawn') THEN datetime('now')
+                ELSE response_date 
+            END
+        WHERE id = ?
+        RETURNING *
+        "#
+    )
+    .bind(&status)
+    .bind(&status)
+    .bind(id)
+    .fetch_one(&*pool)
+    .await
+    .map_err(|e| e.to_string())?;
+    
+    Ok(application)
+}
