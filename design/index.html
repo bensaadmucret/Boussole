@@ -3,15 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Boussole - Dashboard</title>
+  <title>Boussole - Dashboard (Green Theme)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            primary: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a' },
-            accent: { 500: '#f59e0b', 600: '#d97706' }
+            // Primary: Olive/Green family
+            primary: { 
+              50: '#f7fee7',   // Very light lime
+              100: '#ecfccb',  // Light lime
+              200: '#d9f99d',  // Lime 200
+              500: '#84cc16',  // Lime 500 - main accent
+              600: '#65a30d',  // Lime 600
+              700: '#4d7c0f',  // Lime 700
+              800: '#3f6212',  // Olive
+              900: '#1a2e05',  // Dark olive (sidebar)
+            },
+            // Secondary: Fresh lime for CTAs
+            accent: { 
+              400: '#a3e635',  // Bright lime
+              500: '#84cc16',  // Lime 500
+              600: '#65a30d',  
+            },
+            // Background: Warm off-white with green tint
+            surface: '#fafdf7',  // Very light green-white
           }
         }
       }
@@ -19,43 +36,73 @@
   </script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-    body { font-family: 'Inter', sans-serif; }
+    body { 
+      font-family: 'Inter', sans-serif; 
+      background-color: #fafdf7;
+    }
+    .card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 2px 12px rgba(132, 204, 22, 0.08);
+    }
+    .nav-item:hover {
+      background: rgba(132, 204, 22, 0.15);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #a3e635 0%, #84cc16 100%);
+      box-shadow: 0 4px 14px rgba(132, 204, 22, 0.35);
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
+      box-shadow: 0 6px 20px rgba(132, 204, 22, 0.45);
+    }
+    .stat-card {
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 2px 16px rgba(132, 204, 22, 0.06);
+      border: 1px solid rgba(132, 204, 22, 0.1);
+    }
+    .badge {
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.75rem;
+    }
   </style>
 </head>
-<body class="bg-gray-50 text-gray-900">
-  <!-- Sidebar -->
+<body class="text-gray-800">
   <div class="flex h-screen">
-    <aside class="w-64 bg-primary-900 text-white flex flex-col">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-primary-900 text-white flex flex-col" style="background: linear-gradient(180deg, #3f6212 0%, #1a2e05 100%);">
       <div class="p-6 flex items-center gap-3">
-        <div class="w-8 h-8 bg-accent-500 rounded-lg flex items-center justify-center text-primary-900 font-bold">🧭</div>
-        <span class="font-bold text-xl">Boussole</span>
+        <div class="w-10 h-10 bg-accent-400 rounded-2xl flex items-center justify-center text-primary-900 font-bold text-lg shadow-lg">🧭</div>
+        <span class="font-bold text-xl tracking-tight">Boussole</span>
       </div>
       
-      <nav class="flex-1 px-4 space-y-1">
-        <a href="index.html" class="flex items-center gap-3 px-4 py-3 bg-primary-700 rounded-lg text-white">
+      <nav class="flex-1 px-3 space-y-1">
+        <a href="#" class="nav-item flex items-center gap-3 px-4 py-3 bg-white/10 rounded-2xl text-white backdrop-blur-sm">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
-          <span>Tableau de bord</span>
+          <span class="font-medium">Tableau de bord</span>
         </a>
-        <a href="listings.html" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-primary-800 rounded-lg">
+        <a href="#" class="nav-item flex items-center gap-3 px-4 py-3 text-white/70 rounded-2xl hover:text-white transition">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
           <span>Annonces</span>
         </a>
-        <a href="kanban.html" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-primary-800 rounded-lg">
+        <a href="#" class="nav-item flex items-center gap-3 px-4 py-3 text-white/70 rounded-2xl hover:text-white transition">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6 4h3"/></svg>
           <span>Candidatures</span>
         </a>
-        <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-primary-800 rounded-lg">
+        <a href="#" class="nav-item flex items-center gap-3 px-4 py-3 text-white/70 rounded-2xl hover:text-white transition">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
           <span>Agenda</span>
         </a>
-        <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-primary-800 rounded-lg">
+        <a href="#" class="nav-item flex items-center gap-3 px-4 py-3 text-white/70 rounded-2xl hover:text-white transition">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
           <span>Assistant IA</span>
         </a>
       </nav>
       
-      <div class="p-4 border-t border-primary-800">
-        <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-primary-800 rounded-lg">
+      <div class="p-3">
+        <a href="#" class="nav-item flex items-center gap-3 px-4 py-3 text-white/70 rounded-2xl hover:text-white transition">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
           <span>Paramètres</span>
         </a>
@@ -65,118 +112,132 @@
     <!-- Main Content -->
     <main class="flex-1 overflow-auto">
       <!-- Header -->
-      <header class="bg-white border-b px-8 py-4 flex justify-between items-center">
-        <h1 class="text-2xl font-bold text-gray-900">Tableau de bord</h1>
-        <div class="flex items-center gap-4">
-          <button class="flex items-center gap-2 px-4 py-2 bg-accent-500 hover:bg-accent-600 text-white rounded-lg transition">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-            <span>Nouvelle annonce</span>
-          </button>
+      <header class="px-8 py-6 flex justify-between items-center">
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900">Bonjour 👋</h1>
+          <p class="text-gray-500 mt-1">Voici l'actualité de votre recherche</p>
         </div>
+        <button class="btn-primary flex items-center gap-2 px-6 py-3 text-white font-semibold rounded-2xl transition transform hover:scale-105">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          <span>Nouvelle annonce</span>
+        </button>
       </header>
 
       <!-- Dashboard Content -->
-      <div class="p-8">
+      <div class="px-8 pb-8">
         <!-- Stats Cards -->
-        <div class="grid grid-cols-4 gap-6 mb-8">
-          <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-            <div class="flex items-center justify-between mb-4">
-              <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
-                <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        <div class="grid grid-cols-4 gap-5 mb-8">
+          <div class="stat-card p-6">
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-14 h-14 bg-primary-100 rounded-2xl flex items-center justify-center">
+                <svg class="w-7 h-7 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
               </div>
-              <span class="text-3xl font-bold text-gray-900">12</span>
+              <span class="text-3xl font-bold text-primary-700">12</span>
             </div>
-            <p class="text-sm text-gray-500">Annonces sauvegardées</p>
+            <p class="text-sm text-gray-500 font-medium">Annonces sauvegardées</p>
           </div>
           
-          <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-            <div class="flex items-center justify-between mb-4">
-              <div class="w-12 h-12 bg-accent-100 rounded-lg flex items-center justify-center">
-                <svg class="w-6 h-6 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+          <div class="stat-card p-6">
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-14 h-14 bg-orange-100 rounded-2xl flex items-center justify-center">
+                <svg class="w-7 h-7 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
               </div>
-              <span class="text-3xl font-bold text-gray-900">5</span>
+              <span class="text-3xl font-bold text-orange-600">5</span>
             </div>
-            <p class="text-sm text-gray-500">Candidatures en cours</p>
+            <p class="text-sm text-gray-500 font-medium">Candidatures en cours</p>
           </div>
           
-          <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-            <div class="flex items-center justify-between mb-4">
-              <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <div class="stat-card p-6">
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-14 h-14 bg-green-100 rounded-2xl flex items-center justify-center">
+                <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
               </div>
-              <span class="text-3xl font-bold text-gray-900">2</span>
+              <span class="text-3xl font-bold text-green-600">2</span>
             </div>
-            <p class="text-sm text-gray-500">Entretiens cette semaine</p>
+            <p class="text-sm text-gray-500 font-medium">Entretiens cette semaine</p>
           </div>
           
-          <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-            <div class="flex items-center justify-between mb-4">
-              <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <div class="stat-card p-6">
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-14 h-14 bg-purple-100 rounded-2xl flex items-center justify-center">
+                <svg class="w-7 h-7 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
               </div>
-              <span class="text-3xl font-bold text-gray-900">3</span>
+              <span class="text-3xl font-bold text-purple-600">3</span>
             </div>
-            <p class="text-sm text-gray-500">Relances à faire</p>
+            <p class="text-sm text-gray-500 font-medium">Relances à faire</p>
           </div>
         </div>
 
-        <!-- Recent Activity -->
+        <!-- Two Column Layout -->
         <div class="grid grid-cols-2 gap-6">
-          <div class="bg-white rounded-xl shadow-sm border border-gray-100">
-            <div class="px-6 py-4 border-b border-gray-100">
-              <h2 class="font-semibold text-gray-900">Annonces récentes</h2>
+          <!-- Recent Listings -->
+          <div class="card p-6">
+            <div class="flex items-center justify-between mb-5">
+              <h2 class="font-bold text-xl text-gray-900">Annonces récentes</h2>
+              <a href="#" class="text-primary-600 font-semibold text-sm hover:text-primary-700">Voir tout →</a>
             </div>
-            <div class="divide-y divide-gray-100">
-              <div class="px-6 py-4 hover:bg-gray-50">
-                <div class="flex justify-between items-start mb-2">
-                  <div>
-                    <h3 class="font-medium text-gray-900">Développeur Full Stack</h3>
-                    <p class="text-sm text-gray-500">TechCorp • Paris (hybride)</p>
+            <div class="space-y-4">
+              <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-2xl hover:bg-primary-50 transition cursor-pointer">
+                <div class="w-12 h-12 bg-primary-200 rounded-xl flex items-center justify-center text-primary-700 font-bold">T</div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-2 mb-1">
+                    <h3 class="font-semibold text-gray-900">Développeur Full Stack</h3>
+                    <span class="badge px-2 py-1 bg-primary-100 text-primary-700">CDI</span>
                   </div>
-                  <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">CDI</span>
+                  <p class="text-sm text-gray-500">TechCorp • Paris (hybride)</p>
+                  <div class="flex gap-2 mt-2">
+                    <span class="px-2 py-1 bg-white rounded-lg text-xs text-gray-600">React</span>
+                    <span class="px-2 py-1 bg-white rounded-lg text-xs text-gray-600">Node.js</span>
+                  </div>
                 </div>
-                <p class="text-sm text-gray-600 line-clamp-2">Développement d'applications web modernes avec React et Node.js...</p>
               </div>
-              <div class="px-6 py-4 hover:bg-gray-50">
-                <div class="flex justify-between items-start mb-2">
-                  <div>
-                    <h3 class="font-medium text-gray-900">Lead Developer Rust</h3>
-                    <p class="text-sm text-gray-500">StartupXYZ • Lyon (remote)</p>
+              
+              <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-2xl hover:bg-primary-50 transition cursor-pointer">
+                <div class="w-12 h-12 bg-purple-200 rounded-xl flex items-center justify-center text-purple-700 font-bold">S</div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-2 mb-1">
+                    <h3 class="font-semibold text-gray-900">Lead Developer Rust</h3>
+                    <span class="badge px-2 py-1 bg-purple-100 text-purple-700">Freelance</span>
                   </div>
-                  <span class="px-2 py-1 bg-purple-100 text-purple-700 text-xs font-medium rounded-full">Freelance</span>
+                  <p class="text-sm text-gray-500">StartupXYZ • Lyon (remote)</p>
+                  <div class="flex gap-2 mt-2">
+                    <span class="px-2 py-1 bg-white rounded-lg text-xs text-gray-600">Rust</span>
+                    <span class="px-2 py-1 bg-white rounded-lg text-xs text-gray-600">gRPC</span>
+                  </div>
                 </div>
-                <p class="text-sm text-gray-600 line-clamp-2">Architecture systèmes distribués, haute performance...</p>
               </div>
             </div>
           </div>
 
-          <div class="bg-white rounded-xl shadow-sm border border-gray-100">
-            <div class="px-6 py-4 border-b border-gray-100">
-              <h2 class="font-semibold text-gray-900">Prochains entretiens</h2>
+          <!-- Upcoming Interviews -->
+          <div class="card p-6">
+            <div class="flex items-center justify-between mb-5">
+              <h2 class="font-bold text-xl text-gray-900">Prochains entretiens</h2>
+              <a href="#" class="text-primary-600 font-semibold text-sm hover:text-primary-700">Voir tout →</a>
             </div>
-            <div class="divide-y divide-gray-100">
-              <div class="px-6 py-4 hover:bg-gray-50">
-                <div class="flex items-center gap-4">
-                  <div class="w-12 h-12 bg-primary-100 rounded-lg flex flex-col items-center justify-center">
-                    <span class="text-xs font-bold text-primary-600">MAR</span>
-                    <span class="text-lg font-bold text-primary-700">08</span>
-                  </div>
-                  <div class="flex-1">
-                    <h3 class="font-medium text-gray-900">Entretien technique</h3>
-                    <p class="text-sm text-gray-500">TechCorp • 14:00 • Visio</p>
-                  </div>
+            <div class="space-y-4">
+              <div class="flex items-center gap-4 p-4 bg-accent-400/10 rounded-2xl border border-accent-400/20">
+                <div class="w-14 h-14 bg-accent-400 rounded-2xl flex flex-col items-center justify-center text-primary-900">
+                  <span class="text-xs font-bold">MAR</span>
+                  <span class="text-lg font-bold leading-none">08</span>
                 </div>
+                <div class="flex-1">
+                  <h3 class="font-semibold text-gray-900">Entretien technique</h3>
+                  <p class="text-sm text-gray-500">TechCorp • 14:00 • Visio</p>
+                </div>
+                <button class="w-10 h-10 bg-accent-400 rounded-xl flex items-center justify-center text-primary-900 hover:bg-accent-500 transition">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                </button>
               </div>
-              <div class="px-6 py-4 hover:bg-gray-50">
-                <div class="flex items-center gap-4">
-                  <div class="w-12 h-12 bg-accent-100 rounded-lg flex flex-col items-center justify-center">
-                    <span class="text-xs font-bold text-accent-600">JEU</span>
-                    <span class="text-lg font-bold text-accent-700">10</span>
-                  </div>
-                  <div class="flex-1">
-                    <h3 class="font-medium text-gray-900">Entretien RH</h3>
-                    <p class="text-sm text-gray-500">DataSoft • 10:30 • Téléphone</p>
-                  </div>
+              
+              <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl">
+                <div class="w-14 h-14 bg-orange-200 rounded-2xl flex flex-col items-center justify-center text-orange-700">
+                  <span class="text-xs font-bold">JEU</span>
+                  <span class="text-lg font-bold leading-none">10</span>
+                </div>
+                <div class="flex-1">
+                  <h3 class="font-semibold text-gray-900">Entretien RH</h3>
+                  <p class="text-sm text-gray-500">DataSoft • 10:30 • Téléphone</p>
                 </div>
               </div>
             </div>

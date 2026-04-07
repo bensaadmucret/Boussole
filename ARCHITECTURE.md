@@ -310,15 +310,19 @@ export async function searchListings(query: string, filters: ListingFilters) {
 
 ---
 
-### Phase 2 : Gestion des Annonces 🚧
-- [ ] CRUD annonces complet
-- [ ] Formulaire avec tous les champs
-- [ ] Recherche full-text avec filtres
-- [ ] Détection doublons société
+### Phase 2 : Gestion des Annonces ✅
+- [x] CRUD annonces complet (create, read, update, delete)
+- [x] Formulaire avec tous les champs
+- [x] Recherche full-text avec filtres
+- [x] Détection doublons société
+
+**Stack**: Svelte 5 stores + Tauri commands + SQLite
+
+**Livrables**: Formulaire annonce, liste avec filtres, page détail, détection doublons
 
 ---
 
-### Phase 3 : Kanban Candidatures
+### Phase 3 : Kanban Candidatures 🚧
 - [ ] Tableau Kanban drag & drop
 - [ ] Liaison annonces → candidatures
 - [ ] Alertes doublons société

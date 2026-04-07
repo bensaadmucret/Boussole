@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Boussole - Nouvelle Annonce</title>
+  <title>Boussole - Nouvelle Annonce (Green)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            primary: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a' },
-            accent: { 500: '#f59e0b', 600: '#d97706' }
+            primary: { 50: '#f7fee7', 100: '#ecfccb', 200: '#d9f99d', 500: '#84cc16', 600: '#65a30d', 700: '#4d7c0f', 800: '#3f6212', 900: '#1a2e05' },
+            accent: { 400: '#a3e635', 500: '#84cc16', 600: '#65a30d' },
           }
         }
       }
@@ -19,76 +19,91 @@
   </script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-    body { font-family: 'Inter', sans-serif; }
+    body { font-family: 'Inter', sans-serif; background-color: #fafdf7; }
+    .card { background: white; border-radius: 24px; box-shadow: 0 2px 12px rgba(132, 204, 22, 0.08); }
+    .btn-primary { background: linear-gradient(135deg, #a3e635 0%, #84cc16 100%); box-shadow: 0 4px 14px rgba(132, 204, 22, 0.35); }
+    .btn-primary:hover { background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%); }
+    .btn-secondary { border: 2px solid #e5e7eb; }
+    .btn-secondary:hover { background: #f3f4f6; border-color: #d1d5db; }
+    .nav-item:hover { background: rgba(132, 204, 22, 0.15); }
+    .input-field:focus { box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.2); border-color: #84cc16; }
+    .section-card { background: white; border-radius: 24px; box-shadow: 0 2px 12px rgba(132, 204, 22, 0.06); border: 1px solid rgba(132, 204, 22, 0.1); }
   </style>
 </head>
-<body class="bg-gray-50 text-gray-900">
+<body class="text-gray-800">
   <div class="flex h-screen">
     <!-- Sidebar -->
-    <aside class="w-64 bg-primary-900 text-white flex flex-col">
+    <aside class="w-64 text-white flex flex-col" style="background: linear-gradient(180deg, #3f6212 0%, #1a2e05 100%);">
       <div class="p-6 flex items-center gap-3">
-        <div class="w-8 h-8 bg-accent-500 rounded-lg flex items-center justify-center text-primary-900 font-bold">🧭</div>
-        <span class="font-bold text-xl">Boussole</span>
+        <div class="w-10 h-10 bg-accent-400 rounded-2xl flex items-center justify-center text-primary-900 font-bold text-lg shadow-lg">🧭</div>
+        <span class="font-bold text-xl tracking-tight">Boussole</span>
       </div>
-      <nav class="flex-1 px-4 space-y-1">
-        <a href="index.html" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-primary-800 rounded-lg">
+      <nav class="flex-1 px-3 space-y-1">
+        <a href="index-green.html" class="nav-item flex items-center gap-3 px-4 py-3 text-white/70 rounded-2xl hover:text-white transition">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
           <span>Tableau de bord</span>
         </a>
-        <a href="listings.html" class="flex items-center gap-3 px-4 py-3 bg-primary-700 rounded-lg text-white">
+        <a href="listings-green.html" class="nav-item flex items-center gap-3 px-4 py-3 bg-white/10 rounded-2xl text-white backdrop-blur-sm">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-          <span>Annonces</span>
+          <span class="font-medium">Annonces</span>
+        </a>
+        <a href="kanban-green.html" class="nav-item flex items-center gap-3 px-4 py-3 text-white/70 rounded-2xl hover:text-white transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6 4h3"/></svg>
+          <span>Candidatures</span>
         </a>
       </nav>
     </aside>
 
     <!-- Main Content -->
     <main class="flex-1 overflow-auto">
-      <header class="bg-white border-b px-8 py-4">
+      <header class="px-8 py-6">
         <div class="flex items-center gap-4">
-          <a href="listings.html" class="text-gray-500 hover:text-gray-700">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+          <a href="listings-green.html" class="w-10 h-10 flex items-center justify-center rounded-xl bg-white shadow-sm text-gray-500 hover:text-gray-700 hover:shadow transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
           </a>
-          <h1 class="text-2xl font-bold text-gray-900">Nouvelle annonce</h1>
+          <div>
+            <h1 class="text-3xl font-bold text-gray-900">Nouvelle annonce</h1>
+            <p class="text-gray-500 mt-1">Enregistrez une offre pour ne pas la perdre</p>
+          </div>
         </div>
       </header>
 
-      <div class="p-8 max-w-4xl">
+      <div class="px-8 pb-8 max-w-4xl">
         <form class="space-y-6">
-          <!-- URL de l'annonce -->
-          <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <label class="block text-sm font-medium text-gray-700 mb-2">Lien de l'annonce</label>
+          <!-- URL -->
+          <div class="section-card p-6">
+            <label class="block text-sm font-semibold text-gray-700 mb-3">Lien de l'annonce</label>
             <div class="flex gap-3">
               <input type="url" placeholder="https://linkedin.com/jobs/..." 
-                class="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500">
-              <button type="button" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition">
+                class="input-field flex-1 px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none transition">
+              <button type="button" class="px-5 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-xl transition">
                 Extraire auto
               </button>
             </div>
           </div>
 
           <!-- Informations principales -->
-          <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <h2 class="font-semibold text-gray-900 mb-4">Informations principales</h2>
-            <div class="grid grid-cols-2 gap-4">
+          <div class="section-card p-6">
+            <h2 class="font-bold text-lg text-gray-900 mb-5">Informations principales</h2>
+            <div class="grid grid-cols-2 gap-5">
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Nom de la société *</label>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Nom de la société *</label>
                 <input type="text" required
-                  class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500">
+                  class="input-field w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none transition">
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Titre du poste *</label>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Titre du poste *</label>
                 <input type="text" required
-                  class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500">
+                  class="input-field w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none transition">
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Localisation</label>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Localisation</label>
                 <input type="text" placeholder="Paris, Lyon, Remote..."
-                  class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500">
+                  class="input-field w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none transition">
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Site de parution</label>
-                <select class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Site de parution</label>
+                <select class="input-field w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none transition">
                   <option>LinkedIn</option>
                   <option>Indeed</option>
                   <option>Welcome to the Jungle</option>
@@ -100,12 +115,12 @@
           </div>
 
           <!-- Contrat & Salaire -->
-          <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <h2 class="font-semibold text-gray-900 mb-4">Contrat & Salaire</h2>
-            <div class="grid grid-cols-3 gap-4">
+          <div class="section-card p-6">
+            <h2 class="font-bold text-lg text-gray-900 mb-5">Contrat & Salaire</h2>
+            <div class="grid grid-cols-3 gap-5">
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Type de contrat</label>
-                <select class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Type de contrat</label>
+                <select class="input-field w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none transition">
                   <option>CDI</option>
                   <option>CDD</option>
                   <option>Freelance</option>
@@ -114,56 +129,56 @@
                 </select>
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Télétravail</label>
-                <select class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Télétravail</label>
+                <select class="input-field w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none transition">
                   <option>Sur site</option>
                   <option>Hybride</option>
                   <option>Full remote</option>
                 </select>
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Salaire</label>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Salaire annuel (€)</label>
                 <div class="flex gap-2">
                   <input type="number" placeholder="Min"
-                    class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500">
+                    class="input-field w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none transition">
                   <span class="self-center text-gray-400">-</span>
                   <input type="number" placeholder="Max"
-                    class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500">
+                    class="input-field w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none transition">
                 </div>
               </div>
             </div>
           </div>
 
           <!-- Stack technique -->
-          <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <h2 class="font-semibold text-gray-900 mb-4">Stack technique</h2>
+          <div class="section-card p-6">
+            <h2 class="font-bold text-lg text-gray-900 mb-5">Stack technique</h2>
             <div class="flex flex-wrap gap-2 mb-3">
-              <span class="px-3 py-1 bg-primary-100 text-primary-700 rounded-full text-sm flex items-center gap-2">
+              <span class="px-4 py-2 bg-primary-100 text-primary-700 rounded-full text-sm font-medium flex items-center gap-2">
                 React
                 <button class="hover:text-primary-900">×</button>
               </span>
-              <span class="px-3 py-1 bg-primary-100 text-primary-700 rounded-full text-sm flex items-center gap-2">
+              <span class="px-4 py-2 bg-primary-100 text-primary-700 rounded-full text-sm font-medium flex items-center gap-2">
                 TypeScript
                 <button class="hover:text-primary-900">×</button>
               </span>
               <input type="text" placeholder="Ajouter une techno..." 
-                class="px-3 py-1 border border-gray-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-primary-500">
+                class="px-4 py-2 border-2 border-gray-200 rounded-full text-sm focus:outline-none focus:border-primary-500 transition">
             </div>
           </div>
 
           <!-- Description -->
-          <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <h2 class="font-semibold text-gray-900 mb-4">Description complète</h2>
+          <div class="section-card p-6">
+            <h2 class="font-bold text-lg text-gray-900 mb-5">Description complète</h2>
             <textarea rows="10" placeholder="Collez ici la description de l'annonce..."
-              class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 resize-none"></textarea>
+              class="input-field w-full px-4 py-4 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none transition resize-none"></textarea>
           </div>
 
           <!-- Actions -->
-          <div class="flex justify-end gap-3">
-            <a href="listings.html" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition">
+          <div class="flex justify-end gap-4">
+            <a href="listings-green.html" class="btn-secondary px-8 py-3 text-gray-700 font-semibold rounded-xl transition">
               Annuler
             </a>
-            <button type="submit" class="px-6 py-2 bg-accent-500 hover:bg-accent-600 text-white rounded-lg transition">
+            <button type="submit" class="btn-primary px-8 py-3 text-white font-semibold rounded-xl transition transform hover:scale-105">
               Sauvegarder l'annonce
             </button>
           </div>

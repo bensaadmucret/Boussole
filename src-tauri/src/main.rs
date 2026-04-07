@@ -37,8 +37,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .invoke_handler(tauri::generate_handler![
             job_listings::create_job_listing,
             job_listings::get_job_listings,
+            job_listings::update_job_listing,
+            job_listings::delete_job_listing,
+            job_listings::check_duplicate_company,
+            job_listings::get_existing_company_listings,
             applications::create_application,
-            applications::get_applications,
+            applications::get_applications
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
