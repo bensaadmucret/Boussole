@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #fafdf7;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-gradient-to-br from-accent-400 to-primary-500 text-white font-semibold px-6 py-3 rounded-2xl shadow-lg transition transform hover:scale-105;
+    box-shadow: 0 4px 14px rgba(132, 204, 22, 0.35);
+  }
+  
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
+    box-shadow: 0 6px 20px rgba(132, 204, 22, 0.45);
+  }
+  
+  .card {
+    @apply bg-white rounded-2xl shadow-sm p-6;
+    box-shadow: 0 2px 12px rgba(132, 204, 22, 0.08);
+  }
+  
+  .nav-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-2xl transition;
+  }
+  
+  .nav-item:hover {
+    background: rgba(132, 204, 22, 0.15);
+  }
+  
+  .input-field {
+    @apply w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-primary-500 transition;
+  }
+  
+  .input-field:focus {
+    box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.2);
+  }
+}

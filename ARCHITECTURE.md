@@ -53,12 +53,12 @@ Application desktop Tauri + Svelte pour la gestion de recherche d'emploi avec st
 |-------|------|-------------|
 | `id` | INTEGER PK | Identifiant unique |
 | `type` | TEXT | cv, cover_letter, other |
+| `profile_name` | TEXT | Nom du profil (ex: "Lead Dev", "Chef de projet IT", "DevOps") |
 | `name` | TEXT | Nom du fichier |
 | `content` | BLOB | Contenu binaire |
 | `version` | INTEGER | Numéro de version |
 | `created_at` | DATETIME | Date de création |
 | `updated_at` | DATETIME | Date de modification |
-| `is_template` | BOOLEAN | Modèle réutilisable |
 
 ### Table `interviews` (Entretiens)
 
@@ -285,38 +285,64 @@ export async function searchListings(query: string, filters: ListingFilters) {
 
 ## 🚀 Phases de Développement
 
-### Phase 1 : Fondation (Semaine 1)
-- [ ] Setup projet Tauri + Svelte
-- [ ] Configuration base SQLite + migrations sqlx
-- [ ] Modèles de base (job_listings, applications)
-- [ ] Structure UI (layout, navigation)
+### Phase 0 : Design & Spécifications ✅
+- [x] Benchmark design (Velocity-inspired)
+- [x] Création maquettes HTML (Dashboard, Annonces, Formulaire, Kanban)
+- [x] Charte graphique complète (couleurs, typo, composants)
+- [x] Sélection thème Fresh Green
+- [x] Architecture technique définie (DB, API, structure)
 
-### Phase 2 : Gestion des Annonces (Semaine 2)
+**Livrables** : `/design/` (4 maquettes + charte graphique)
+
+---
+
+### Phase 1 : Fondation ✅
+- [x] Setup projet Tauri + SvelteKit 2 + Svelte 5 + Vite 5
+- [x] Configuration base SQLite + migrations sqlx
+- [x] Modèles de base (job_listings, applications)
+- [x] Structure UI (layout, navigation)
+- [x] Compilation Rust OK (cargo check)
+- [x] Compilation Frontend OK (svelte-check)
+
+**Stack**: Rust (Tauri 2) + Svelte 5 + SvelteKit 2.5 + Vite 5 + Tailwind CSS
+
+**Livrables**: `/src-tauri/`, `/frontend/`, migrations SQL, modèles Rust, layout Svelte
+
+---
+
+### Phase 2 : Gestion des Annonces 🚧
 - [ ] CRUD annonces complet
 - [ ] Formulaire avec tous les champs
 - [ ] Recherche full-text avec filtres
 - [ ] Détection doublons société
-- [ ] Import basique (copier-coller URL)
 
-### Phase 3 : Kanban Candidatures (Semaine 3)
+---
+
+### Phase 3 : Kanban Candidatures
 - [ ] Tableau Kanban drag & drop
 - [ ] Liaison annonces → candidatures
 - [ ] Alertes doublons société
 - [ ] Historique des actions
 
-### Phase 4 : Documents & IA (Semaine 4)
-- [ ] Upload/versioning CV
+---
+
+### Phase 4 : Documents & IA
+- [ ] Gestion CV multi-profiles (Lead Dev, Chef de projet, DevOps, etc.)
 - [ ] Intégration Gemini API
 - [ ] Génération lettres de motivation
 - [ ] Analyse matching offre/CV
 
-### Phase 5 : Calendar & Export (Semaine 5)
+---
+
+### Phase 5 : Calendar & Export
 - [ ] OAuth Google Calendar
 - [ ] Synchronisation entretiens
 - [ ] Génération rapports PDF France Travail
 - [ ] Export données complètes
 
-### Phase 6 : Polish & Distribution (Semaine 6)
+---
+
+### Phase 6 : Polish & Distribution
 - [ ] Tests E2E
 - [ ] Optimisations performances
 - [ ] Builds Windows/macOS/Linux
