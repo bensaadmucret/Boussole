@@ -14,7 +14,7 @@ Boussole est une application desktop légère, sécurisée et 100% locale conçu
 ## 🛠️ Stack technique
 
 - **🦀 Backend** : Rust (sqlx, serde, tokio)
-- **🖥️ Frontend & Shell** : Tauri 2 + (Svelte/Vue/React au choix)
+- **🖥️ Frontend & Shell** : Tauri 2 + Svelte
 - **💾 Base de données** : SQLite (stockage local)
 - **🔐 Authentification** : OAuth 2.0 (Google Calendar)
 - **🌐 IA** : Google Gemini Flash API
@@ -30,5 +30,4 @@ Boussole stocke l'intégralité de vos données localement. Aucune donnée n'est
 
 ## 💡 Conseils d'intégration GitHub
 
-- **Section About** (à droite du repo) : colle la version courte. Ajoute les topics : `tauri`, `rust`, `job-search`, `local-first`, `privacy`, `gemini-api`, `france-travail`
-- **README** : remplace `(Svelte/Vue/React au choix)` par ton framework réel une fois choisi.
+- **Section About** (à droite du repo) : colle la version courte. Ajoute les topics : `tauri`, `rust`, `svelte`, `job-search`, `local-first`, `privacy`, `gemini-api`, `france-travail`
