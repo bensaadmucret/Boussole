@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boussole - Annonces</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a' },
+            accent: { 500: '#f59e0b', 600: '#d97706' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-primary-900 text-white flex flex-col">
+      <div class="p-6 flex items-center gap-3">
+        <div class="w-8 h-8 bg-accent-500 rounded-lg flex items-center justify-center text-primary-900 font-bold">🧭</div>
+        <span class="font-bold text-xl">Boussole</span>
+      </div>
+      <nav class="flex-1 px-4 space-y-1">
+        <a href="index.html" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-primary-800 rounded-lg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+          <span>Tableau de bord</span>
+        </a>
+        <a href="listings.html" class="flex items-center gap-3 px-4 py-3 bg-primary-700 rounded-lg text-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <span>Annonces</span>
+        </a>
+        <a href="kanban.html" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-primary-800 rounded-lg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6 4h3"/></svg>
+          <span>Candidatures</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-auto">
+      <header class="bg-white border-b px-8 py-4">
+        <div class="flex justify-between items-center mb-4">
+          <h1 class="text-2xl font-bold text-gray-900">Annonces sauvegardées</h1>
+          <a href="listing-form.html" class="flex items-center gap-2 px-4 py-2 bg-accent-500 hover:bg-accent-600 text-white rounded-lg transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            <span>Nouvelle annonce</span>
+          </a>
+        </div>
+        
+        <!-- Search & Filters -->
+        <div class="flex gap-4">
+          <div class="flex-1 relative">
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <input type="text" placeholder="Rechercher par entreprise, poste, stack..." 
+              class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500">
+          </div>
+          <select class="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500">
+            <option>Tous les contrats</option>
+            <option>CDI</option>
+            <option>CDD</option>
+            <option>Freelance</option>
+            <option>Stage</option>
+          </select>
+          <select class="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500">
+            <option>Télétravail</option>
+            <option>Sur site</option>
+            <option>Hybride</option>
+            <option>Full remote</option>
+          </select>
+          <button class="px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 flex items-center gap-2">
+            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+            <span>Filtres</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Listings Grid -->
+      <div class="p-8">
+        <div class="grid gap-4">
+          <!-- Listing Card 1 -->
+          <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition">
+            <div class="flex justify-between items-start mb-3">
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center text-primary-700 font-bold text-lg">T</div>
+                <div>
+                  <h3 class="font-semibold text-lg text-gray-900">Développeur Full Stack Senior</h3>
+                  <p class="text-gray-500">TechCorp • Paris 9ème</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="px-3 py-1 bg-blue-100 text-blue-700 text-sm font-medium rounded-full">CDI</span>
+                <span class="px-3 py-1 bg-green-100 text-green-700 text-sm font-medium rounded-full">Hybride</span>
+              </div>
+            </div>
+            
+            <div class="flex items-center gap-6 text-sm text-gray-500 mb-3">
+              <span class="flex items-center gap-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                55-65k€
+              </span>
+              <span class="flex items-center gap-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                Postée le 2 avr. 2025
+              </span>
+              <span class="flex items-center gap-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+                LinkedIn
+              </span>
+            </div>
+            
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-2 py-1 bg-gray-100 text-gray-700 text-sm rounded">React</span>
+              <span class="px-2 py-1 bg-gray-100 text-gray-700 text-sm rounded">Node.js</span>
+              <span class="px-2 py-1 bg-gray-100 text-gray-700 text-sm rounded">TypeScript</span>
+              <span class="px-2 py-1 bg-gray-100 text-gray-700 text-sm rounded">PostgreSQL</span>
+            </div>
+            
+            <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+              <p class="text-sm text-gray-600 line-clamp-2 max-w-2xl">
+                Nous recherchons un développeur Full Stack expérimenté pour rejoindre notre équipe produit. Vous travaillerez sur des applications à fort trafic avec une architecture moderne...
+              </p>
+              <div class="flex gap-2">
+                <button class="px-4 py-2 text-primary-600 hover:bg-primary-50 rounded-lg transition">Voir</button>
+                <button class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition">Postuler</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Listing Card 2 -->
+          <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition">
+            <div class="flex justify-between items-start mb-3">
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center text-purple-700 font-bold text-lg">S</div>
+                <div>
+                  <h3 class="font-semibold text-lg text-gray-900">Lead Developer Rust</h3>
+                  <p class="text-gray-500">StartupXYZ • Lyon (remote)</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="px-3 py-1 bg-purple-100 text-purple-700 text-sm font-medium rounded-full">Freelance</span>
+                <span class="px-3 py-1 bg-green-100 text-green-700 text-sm font-medium rounded-full">Full remote</span>
+              </div>
+            </div>
+            
+            <div class="flex items-center gap-6 text-sm text-gray-500 mb-3">
+              <span class="flex items-center gap-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                500-600€/jour
+              </span>
+              <span class="flex items-center gap-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                Postée le 1 avr. 2025
+              </span>
+            </div>
+            
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-2 py-1 bg-gray-100 text-gray-700 text-sm rounded">Rust</span>
+              <span class="px-2 py-1 bg-gray-100 text-gray-700 text-sm rounded">Tokio</span>
+              <span class="px-2 py-1 bg-gray-100 text-gray-700 text-sm rounded">gRPC</span>
+              <span class="px-2 py-1 bg-gray-100 text-gray-700 text-sm rounded">Kubernetes</span>
+            </div>
+            
+            <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+              <p class="text-sm text-gray-600 line-clamp-2 max-w-2xl">
+                Architecture de systèmes distribués haute performance. Vous serez responsable de la conception et de l'implémentation de services backend critiques...
+              </p>
+              <div class="flex gap-2">
+                <button class="px-4 py-2 text-primary-600 hover:bg-primary-50 rounded-lg transition">Voir</button>
+                <button class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition">Postuler</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
