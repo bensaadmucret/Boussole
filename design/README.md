@@ -10,21 +10,58 @@ Valider l'UX/UI et le design visuel avant d'implémenter le frontend Svelte dans
 
 | Fichier | Description |
 |---------|-------------|
-| `index.html` | Dashboard - Vue d'ensemble (Thème Blue) |
-| `index-green.html` | Dashboard - Vue d'ensemble (Thème Green) |
-| `listings.html` | Liste des annonces sauvegardées avec filtres |
-| `listing-form.html` | Formulaire d'ajout/modification d'une annonce |
-| `kanban.html` | Tableau Kanban des candidatures |
+| `CHARTE_GRAPHIQUE.md` | **📐 Charte graphique complète** - Couleurs, typo, composants |
 | `THEMES.md` | Comparaison des propositions de design |
+| `index.html` | Dashboard - Thème Blue (legacy) |
+| `index-green.html` | **Dashboard - Thème Green** (⭐ actuel) |
+| `listings-green.html` | **Liste des annonces** avec filtres |
+| `listing-form-green.html` | **Formulaire** d'ajout d'annonce |
+| `kanban-green.html` | **Kanban** des candidatures |
 
-## 🎨 Deux propositions de design
+## 🎨 Thème retenu : Fresh Green (Velocity-inspired)
 
-Deux palettes sont disponibles pour comparaison :
+Suite à la comparaison, le thème **Fresh Green** a été choisi pour son caractère optimiste et dynamique.
 
-1. **Blue Professional** (`index.html`) - Classique, corporate, rassurant
-2. **Fresh Green** (`index-green.html`) - Inspiré du design Velocity, optimiste et dynamique
+### Pourquoi ce choix ?
+- **Symbolisme** : Le vert évoque la croissance, les opportunités et le renouveau 🌱
+- **Différenciation** : Unique dans l'univers des apps de recherche d'emploi
+- **Émotion** : Dynamisant pour une activité qui peut être stressante
+- **Moderne** : Aligné avec les tendances design 2024/2025
 
-👉 Voir `THEMES.md` pour la comparaison détaillée et la palette complète.
+### Fichiers du thème Green
+
+| Fichier | Description |
+|---------|-------------|
+| `index-green.html` | **Dashboard** - Vue d'ensemble (⭐ actuel) |
+| `listings-green.html` | **Liste des annonces** avec filtres |
+| `listing-form-green.html` | **Formulaire** d'ajout d'annonce |
+| `kanban-green.html` | **Kanban** des candidatures |
+
+### Fichiers legacy (Blue - non retenus)
+
+| Fichier | Description |
+|---------|-------------|
+| `index.html` | Dashboard - Thème Blue (legacy) |
+| `listings.html` | Liste annonces - Thème Blue (legacy) |
+| `kanban.html` | Kanban - Thème Blue (legacy) |
+| `listing-form.html` | Formulaire - Thème Blue (legacy) |
+
+### Palette détaillée
+
+```css
+/* Primary - Navigation, fonds importants */
+--olive-900: #1a2e05;    /* Sidebar background */
+--olive-800: #3f6212;    /* Sidebar gradient */
+--lime-500:  #84cc16;    /* Main brand color */
+--lime-400:  #a3e635;    /* Accent, CTAs */
+--lime-100:  #ecfccb;    /* Light backgrounds */
+
+/* Backgrounds */
+--bg-primary: #fafdf7;   /* Page background (green-tinted) */
+--bg-card:    #ffffff;   /* Cards */
+```
+
+Voir `THEMES.md` pour la comparaison complète.
 
 ## 🚀 Utilisation
 
