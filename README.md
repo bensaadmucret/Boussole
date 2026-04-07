@@ -5,8 +5,8 @@ Boussole est une application desktop légère, sécurisée et 100% locale conçu
 ## ✨ Fonctionnalités principales
 
 - **📊 Tableau Kanban & suivi détaillé** : visualisez vos candidatures, ajoutez des notes, des tags et suivez chaque étape du processus.
-- **� Sauvegarde d'annonces** : enregistrez les offres d'emploi avec lien, description complète et recherche performante par mots-clés.
-- **�📄 Gestion documentaire** : versionning de CV, bibliothèque de modèles, import/export de pièces jointes.
+- **📎 Sauvegarde d'annonces** : enregistrez les offres avec nom de la société, date, titre de l'annonce, site de parution, lien et description complète. Recherche performante par mots-clés.
+- **� Gestion documentaire** : versionning de CV, bibliothèque de modèles, import/export de pièces jointes.
 - **🤖 Assistant IA (Gemini Flash)** : génération de lettres de motivation à la volée, analyse d'offres, préparation d'entretiens.
 - **📅 Synchronisation Google Calendar** : vue unifiée de vos agendas, détection d'entretiens, rappels contextuels.
 - **🇫🇷 Exports France Travail** : journal des démarches, génération de rapports PDF mensuels/trimestriels prêts à imprimer ou envoyer.
