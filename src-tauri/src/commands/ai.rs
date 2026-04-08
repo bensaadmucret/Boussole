@@ -19,8 +19,14 @@ where
 
     match raw_value {
         Some(value) => {
-            let decrypted = crypto::decrypt(&value)?;
-            serde_json::from_str(&decrypted).map_err(|e| e.to_string())
+            match crypto::decrypt(&value) {
+                Ok(decrypted) => serde_json::from_str(&decrypted).map_err(|e| e.to_string()),
+                Err(e) => {
+                    // Decryption failed (e.g. key changed between dev/prod) — return default
+                    eprintln!("[Config] Decryption failed for key '{}', returning default: {}", key, e);
+                    Ok(T::default())
+                }
+            }
         }
         None => Ok(T::default()),
     }

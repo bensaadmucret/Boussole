@@ -5,7 +5,6 @@ use once_cell::sync::OnceCell;
 use sqlx::{sqlite::{SqliteConnectOptions, SqliteJournalMode, SqlitePoolOptions}, Pool, Sqlite};
 use std::sync::Arc;
 use std::str::FromStr;
-use tauri::path::BaseDirectory;
 use tauri::Manager;
 
 mod commands;
@@ -19,9 +18,11 @@ use commands::calendar;
 static DB_POOL: OnceCell<Arc<Pool<Sqlite>>> = OnceCell::new();
 
 async fn init_database(app_handle: &tauri::AppHandle) -> Result<(), String> {
-    let app_data_dir = app_handle.path().resolve("", BaseDirectory::AppData)
+    // Use app_data_dir() - explicit and reliable in both dev and production
+    let app_data_dir = app_handle.path().app_data_dir()
         .map_err(|e| e.to_string())?;
     let db_path = app_data_dir.join("boussole.db");
+    println!("[DB] Using database path: {:?}", db_path);
 
     std::fs::create_dir_all(&app_data_dir)
         .map_err(|e| format!("Failed to create app data dir: {}", e))?;

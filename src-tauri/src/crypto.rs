@@ -96,17 +96,3 @@ pub fn decrypt(ciphertext_b64: &str) -> Result<String, String> {
     String::from_utf8(plaintext)
         .map_err(|e| format!("Invalid UTF-8: {}", e))
 }
-
-/// Encrypt a JSON-serializable value
-pub fn encrypt_json<T: serde::Serialize>(value: &T) -> Result<String, String> {
-    let json = serde_json::to_string(value)
-        .map_err(|e| format!("JSON serialization failed: {}", e))?;
-    encrypt(&json)
-}
-
-/// Decrypt to a JSON-deserializable value
-pub fn decrypt_json<T: serde::de::DeserializeOwned>(ciphertext: &str) -> Result<T, String> {
-    let json = decrypt(ciphertext)?;
-    serde_json::from_str(&json)
-        .map_err(|e| format!("JSON deserialization failed: {}", e))
-}
