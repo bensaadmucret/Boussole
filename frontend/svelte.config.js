@@ -8,6 +8,13 @@ const config = {
 		adapter: adapter({
 			fallback: 'index.html'
 		}),
+		prerender: {
+			handleHttpError: ({ path, referrer, message }) => {
+				if (path === '/favicon.png') return;
+				throw new Error(message);
+			},
+			handleUnseenRoutes: 'ignore'
+		},
 		alias: {
 			$lib: './src/lib'
 		}
