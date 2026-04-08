@@ -23,10 +23,14 @@ Thumbs.db
 .vscode/
 *.swp
 *.swo
+.windsurf/
+
+# SvelteKit
+.svelte-kit/
+.vite/
 
 # Rust
 target/
-Cargo.lock
 
 # Node
 node_modules/
