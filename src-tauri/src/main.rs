@@ -51,8 +51,8 @@ async fn init_database(app_handle: &tauri::AppHandle) -> Result<(), String> {
     DB_POOL.set(Arc::new(pool))
         .map_err(|_| "Database already initialized".to_string())?;
 
-    // Encryption failure is now fatal - no encrypted data is safe without it
-    crypto::init_encryption()
+    // Key stored in app_data_dir/.key (avoids macOS Keychain issues with unsigned apps)
+    crypto::init_encryption(&app_data_dir)
         .map_err(|e| format!("Failed to initialize encryption (fatal): {}", e))?;
 
     Ok(())

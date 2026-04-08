@@ -3,46 +3,52 @@ use aes_gcm::{
     Aes256Gcm, Nonce,
 };
 use base64::{engine::general_purpose::STANDARD, Engine as _};
-use keyring::Entry;
 use rand::RngCore;
 use std::sync::OnceLock;
 
-const KEYRING_SERVICE: &str = "com.boussole.app";
-const KEYRING_ENCRYPTION_KEY: &str = "encryption_key";
-
 static ENCRYPTION_KEY: OnceLock<[u8; 32]> = OnceLock::new();
 
-/// Initialize or retrieve the encryption key from OS keyring
-fn get_or_create_encryption_key() -> Result<[u8; 32], String> {
-    let entry = Entry::new(KEYRING_SERVICE, KEYRING_ENCRYPTION_KEY)
-        .map_err(|e| format!("Failed to access keyring: {}", e))?;
+/// Load or create the encryption key from a file in the app data directory.
+/// This avoids OS Keychain issues with unsigned apps (key would change each restart).
+fn get_or_create_file_key(dir: &std::path::Path) -> Result<[u8; 32], String> {
+    let key_file = dir.join(".key");
 
-    // Try to get existing key
-    if let Ok(key_b64) = entry.get_password() {
-        let key = STANDARD.decode(&key_b64)
+    if key_file.exists() {
+        let key_b64 = std::fs::read_to_string(&key_file)
+            .map_err(|e| format!("Failed to read key file: {}", e))?;
+        let key_bytes = STANDARD.decode(key_b64.trim())
             .map_err(|e| format!("Failed to decode key: {}", e))?;
-        if key.len() == 32 {
-            let mut key_array = [0u8; 32];
-            key_array.copy_from_slice(&key);
-            return Ok(key_array);
+        if key_bytes.len() == 32 {
+            let mut arr = [0u8; 32];
+            arr.copy_from_slice(&key_bytes);
+            return Ok(arr);
         }
     }
 
-    // Generate new key if none exists
+    // Generate and persist a new key
     let mut key = [0u8; 32];
     OsRng.fill_bytes(&mut key);
-    
-    // Store in keyring
     let key_b64 = STANDARD.encode(&key);
-    entry.set_password(&key_b64)
-        .map_err(|e| format!("Failed to store key: {}", e))?;
+    std::fs::write(&key_file, &key_b64)
+        .map_err(|e| format!("Failed to save key file: {}", e))?;
+
+    // Restrict to owner read/write only (Unix)
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt;
+        if let Ok(metadata) = std::fs::metadata(&key_file) {
+            let mut perms = metadata.permissions();
+            perms.set_mode(0o600);
+            let _ = std::fs::set_permissions(&key_file, perms);
+        }
+    }
 
     Ok(key)
 }
 
-/// Initialize encryption key (call once at startup)
-pub fn init_encryption() -> Result<(), String> {
-    let key = get_or_create_encryption_key()?;
+/// Initialize encryption key from the app data directory (call once at startup)
+pub fn init_encryption(app_data_dir: &std::path::Path) -> Result<(), String> {
+    let key = get_or_create_file_key(app_data_dir)?;
     ENCRYPTION_KEY.set(key)
         .map_err(|_| "Encryption key already initialized".to_string())
 }
