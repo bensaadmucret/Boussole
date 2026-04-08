@@ -89,6 +89,10 @@ export interface GeneratedLetter {
   tokensUsed: number;
 }
 
+export interface GeminiConfig {
+  apiKey: string;
+}
+
 export interface GoogleCalendarAccount {
   id: string;
   email: string;

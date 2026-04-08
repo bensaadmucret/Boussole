@@ -1,14 +1,16 @@
 import { invoke } from '@tauri-apps/api/core';
 import type {
-  JobListing,
-  CreateJobListingInput,
   Application,
-  Document,
+  CreateApplicationInput,
   CreateDocumentInput,
-  GenerateLetterInput,
+  CreateJobListingInput,
+  Document,
   GeneratedLetter,
+  GenerateLetterInput,
+  GeminiConfig,
   GoogleCalendarAccount,
   GoogleOAuthConfig,
+  JobListing,
   UnifiedCalendarEvent,
   UnifiedCalendarSettings
 } from '../types';
@@ -125,3 +127,13 @@ export async function openExternalUrl(url: string): Promise<void> {
 export async function generateCoverLetter(data: GenerateLetterInput): Promise<GeneratedLetter> {
   return await invoke('generate_cover_letter', { data });
 }
+
+export async function getGeminiConfig(): Promise<GeminiConfig> {
+  return await invoke('get_gemini_config');
+}
+
+export async function saveGeminiConfig(config: GeminiConfig): Promise<void> {
+  return await invoke('save_gemini_config', { config });
+}
+
+// Browser API

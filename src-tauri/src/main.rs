@@ -70,6 +70,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             calendar::save_unified_calendar_events,
             calendar::sync_unified_calendar_events,
             ai::generate_cover_letter,
+            ai::get_gemini_config,
+            ai::save_gemini_config,
             browser::open_external_url
         ])
         .run(tauri::generate_context!())
