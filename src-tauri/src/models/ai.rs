@@ -56,5 +56,5 @@ pub struct GeminiResponse {
 #[allow(dead_code)]
 pub struct GeminiCandidate {
     pub content: GeminiContent,
-    pub finish_reason: String,
+    pub finish_reason: Option<String>,
 }

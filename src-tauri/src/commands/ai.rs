@@ -77,37 +77,46 @@ pub async fn generate_cover_letter(data: GenerateLetterInput) -> Result<Generate
         _ => "- Le ton doit être formel et professionnel.",
     };
 
+    // Build context sections based on available data
+    let company_section = if data.company_name.trim().is_empty() {
+        "Lettre de motivation spontanée.".to_string()
+    } else {
+        format!("Entreprise visée : {}", data.company_name)
+    };
+    
+    let cv_section = if data.cv_content.trim().is_empty() {
+        "Pas de CV fourni - rédige une lettre générique qui met en avant les qualités professionnelles générales.".to_string()
+    } else {
+        format!("CV du candidat :\n{}", data.cv_content)
+    };
+
     let prompt = format!(
         r#"Tu es un expert en recrutement et en rédaction de lettres de motivation.
-Écris une lettre de motivation en français pour le poste de "{}" chez "{}".
+Écris une lettre de motivation en français pour le poste de "{}".
+
+{}
 
 Description du poste :
 {}
 
-CV du candidat :
 {}
 
 Instructions :
 {}
-- Met en avant les compétences et expériences du CV qui correspondent le mieux à l'offre.
-- Ne mentionne pas de compétences que le candidat n'a pas dans son CV.
 - La lettre doit comporter 3 ou 4 paragraphes maximum (environ 300 mots).
-- Commence par "Madame, Monsieur," ou une formule d'appel appropriée si le contact est connu.
+- Commence par "Madame, Monsieur," ou une formule d'appel appropriée.
 - Termine par une formule de politesse classique et laisse la signature à la fin.
 - Ne mets pas de bloc d'en-tête (nom, adresse, date), génère uniquement le corps de la lettre.
 "#,
         data.job_title,
-        data.company_name,
+        company_section,
         data.job_description,
-        data.cv_content,
+        cv_section,
         tone_instruction
     );
 
     let client = reqwest::Client::new();
-    let url = format!(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={}",
-        config.api_key
-    );
+    let url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 
     let request_body = GeminiRequest {
         contents: vec![GeminiContent {
@@ -116,7 +125,8 @@ Instructions :
     };
 
     let response = client
-        .post(&url)
+        .post(url)
+        .header("x-goog-api-key", &config.api_key)  // API key in header, not URL
         .json(&request_body)
         .send()
         .await
@@ -128,10 +138,22 @@ Instructions :
         return Err(format!("Erreur de l'API Gemini ({}): {}", status, error_text));
     }
 
-    let gemini_response: GeminiResponse = response
-        .json()
+    // Get raw text first for better error handling
+    let response_text = response
+        .text()
         .await
-        .map_err(|e| format!("Erreur de parsing de la réponse : {}", e))?;
+        .map_err(|e| format!("Erreur lors de la lecture de la réponse : {}", e))?;
+    
+    // Try to parse JSON
+    let gemini_response: GeminiResponse = match serde_json::from_str(&response_text) {
+        Ok(resp) => resp,
+        Err(e) => {
+            eprintln!("[Gemini Debug] Raw response (first 500 chars): {}", &response_text[..response_text.len().min(500)]);
+            return Err(format!("Erreur de parsing JSON ({}): La réponse de l'API n'est pas valide. Détails: {}", 
+                if response_text.len() > 1000 { "très longue" } else { &response_text },
+                e));
+        }
+    };
 
     let content = gemini_response
         .candidates

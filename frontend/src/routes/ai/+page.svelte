@@ -6,7 +6,8 @@
     generateCoverLetter,
     getCvProfiles,
     getDocuments,
-    createDocument
+    createDocument,
+    openExternalUrl
   } from '$lib/utils/tauri';
   import type { Document, GeminiConfig } from '$lib/types';
   import { Check, Copy, ExternalLink, FileText, Loader2, Sparkles, MessageSquare } from 'lucide-svelte';
@@ -14,6 +15,9 @@
   // State
   let config: GeminiConfig = { apiKey: '' };
   let isConfigured = false;
+  
+  // Reactive derived value for the input to handle undefined/null
+  $: apiKeyValue = config?.apiKey || '';
   let isLoadingConfig = true;
   let isSavingConfig = false;
   let configFeedback = '';
@@ -48,12 +52,21 @@
 
   async function loadInitialData() {
     isLoadingConfig = true;
+    configFeedback = '';
     try {
       // Load config
+      console.log('[AI Debug] Loading Gemini config...');
       const savedConfig = await getGeminiConfig();
-      if (savedConfig && savedConfig.apiKey) {
+      console.log('[AI Debug] Config loaded:', savedConfig ? 'object' : 'null', 'apiKey exists:', savedConfig?.apiKey ? 'yes' : 'no');
+      
+      if (savedConfig && savedConfig.apiKey && savedConfig.apiKey.trim()) {
         config = savedConfig;
         isConfigured = true;
+        console.log('[AI Debug] Config valid, isConfigured = true');
+      } else {
+        console.log('[AI Debug] Config empty or invalid');
+        config = { apiKey: '' };
+        isConfigured = false;
       }
 
       // Load CVs
@@ -92,8 +105,8 @@
   }
 
   async function handleGenerate() {
-    if (!jobTitle.trim() || !companyName.trim() || !jobDescription.trim() || !selectedCvContent.trim()) {
-      letterFeedback = 'Veuillez remplir tous les champs obligatoires.';
+    if (!jobTitle.trim() || !jobDescription.trim()) {
+      letterFeedback = 'Veuillez remplir le titre du poste et la description.';
       return;
     }
 
@@ -207,8 +220,15 @@
               </span>
             {/if}
           </h2>
-          <p class="text-sm text-gray-500 mt-1">
-            Obtiens une clé API gratuite sur <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-primary-600 hover:underline inline-flex items-center">Google AI Studio <ExternalLink class="w-3 h-3 ml-1"/></a>.
+  <p class="text-sm text-gray-500 mt-1">
+            Obtiens une clé API gratuite sur 
+            <button 
+              type="button"
+              onclick={() => openExternalUrl('https://aistudio.google.com/app/apikey')}
+              class="text-primary-600 hover:underline inline-flex items-center cursor-pointer"
+            >
+              Google AI Studio <ExternalLink class="w-3 h-3 ml-1"/>
+            </button>.
           </p>
         </div>
 
@@ -229,7 +249,8 @@
 
       <div class="max-w-2xl">
         <input
-          bind:value={config.apiKey}
+          value={apiKeyValue}
+          oninput={(e) => config.apiKey = e.currentTarget.value}
           type="password"
           class="input-field w-full"
           placeholder="AIzaSy..."
@@ -253,18 +274,17 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">CV Source</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                  CV Source <span class="text-gray-400 font-normal">(optionnel)</span>
+                </label>
                 <select class="input-field w-full" onchange={handleCvChange}>
-                  {#if cvProfiles.length === 0}
-                    <option value="">Aucun CV disponible</option>
-                  {:else}
-                    {#each cvProfiles as cv}
-                      <option value={cv.id}>{cv.profileName || cv.name}</option>
-                    {/each}
-                  {/if}
+                  <option value="">-- Aucun CV --</option>
+                  {#each cvProfiles as cv}
+                    <option value={cv.id}>{cv.profileName || cv.name}</option>
+                  {/each}
                 </select>
                 {#if cvProfiles.length === 0}
-                  <p class="text-xs text-amber-600 mt-1">Ajoute d'abord un CV dans la section Documents.</p>
+                  <p class="text-xs text-gray-400 mt-1">Aucun CV. La lettre sera générique.</p>
                 {/if}
               </div>
 
@@ -284,8 +304,10 @@
                   <input bind:value={jobTitle} type="text" class="input-field w-full" placeholder="Ex: Développeur Fullstack" />
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Entreprise</label>
-                  <input bind:value={companyName} type="text" class="input-field w-full" placeholder="Ex: Acme Corp" />
+                  <label class="block text-sm font-medium text-gray-700 mb-1">
+                    Entreprise <span class="text-gray-400 font-normal">(optionnel)</span>
+                  </label>
+                  <input bind:value={companyName} type="text" class="input-field w-full" placeholder="Ex: Acme Corp ou laisser vide" />
                 </div>
               </div>
 
@@ -299,15 +321,15 @@
               <p class="text-sm text-gray-600 max-w-md">{letterFeedback}</p>
               <button
                 onclick={handleGenerate}
-                disabled={isGenerating || !selectedCvContent || !jobTitle || !companyName || !jobDescription}
-                class="btn-primary"
+                disabled={isGenerating || !jobTitle || !jobDescription}
+                class="btn-primary whitespace-nowrap inline-flex items-center py-2.5 px-5"
               >
                 {#if isGenerating}
-                  <Loader2 class="w-4 h-4 mr-2 animate-spin" />
-                  Génération en cours...
+                  <Loader2 class="w-4 h-4 mr-2 animate-spin shrink-0" />
+                  <span>Génération...</span>
                 {:else}
-                  <Sparkles class="w-4 h-4 mr-2" />
-                  Générer la lettre
+                  <Sparkles class="w-4 h-4 mr-2 shrink-0" />
+                  <span>Générer</span>
                 {/if}
               </button>
             </div>
@@ -324,24 +346,27 @@
                 <button
                   onclick={() => copyToClipboard(generatedLetter)}
                   disabled={!generatedLetter}
-                  class="btn-secondary py-1.5 px-3 text-sm"
+                  class="btn-secondary whitespace-nowrap inline-flex items-center py-2 px-4 text-sm"
                   title="Copier"
                 >
                   {#if isCopied}
-                    <Check class="w-4 h-4 mr-1 text-emerald-500" /> Copié!
+                    <Check class="w-4 h-4 mr-1.5 text-emerald-500 shrink-0" />
+                    <span>Copié!</span>
                   {:else}
-                    <Copy class="w-4 h-4 mr-1" /> Copier
+                    <Copy class="w-4 h-4 mr-1.5 shrink-0" />
+                    <span>Copier</span>
                   {/if}
                 </button>
                 <button
                   onclick={handleSaveLetter}
                   disabled={!generatedLetter || isSavingLetter}
-                  class="btn-primary py-1.5 px-3 text-sm"
+                  class="btn-primary whitespace-nowrap inline-flex items-center py-2 px-4 text-sm"
                 >
                   {#if isSavingLetter}
-                    <Loader2 class="w-4 h-4 mr-1 animate-spin" />
+                    <Loader2 class="w-4 h-4 mr-1.5 animate-spin shrink-0" />
+                    <span>Sauvegarde...</span>
                   {:else}
-                    Enregistrer
+                    <span>Enregistrer</span>
                   {/if}
                 </button>
               </div>

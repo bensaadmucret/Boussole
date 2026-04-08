@@ -1,7 +1,18 @@
 use crate::models::application::{CreateApplicationInput, Application};
 
+const VALID_STATUSES: &[&str] = &["applied", "phone", "interview", "final", "offer", "rejected", "withdrawn"];
+
+fn validate_status(status: &str) -> Result<(), String> {
+    if VALID_STATUSES.contains(&status) {
+        Ok(())
+    } else {
+        Err(format!("Statut invalide : '{}'. Valeurs autorisées : {:?}", status, VALID_STATUSES))
+    }
+}
+
 #[tauri::command]
 pub async fn create_application(data: CreateApplicationInput) -> Result<Application, String> {
+    validate_status(&data.status)?;
     let pool = crate::get_db_pool();
     
     let application = sqlx::query_as::<_, Application>(
@@ -44,6 +55,7 @@ pub async fn get_applications() -> Result<Vec<Application>, String> {
 
 #[tauri::command]
 pub async fn update_application_status(id: i64, status: String) -> Result<Application, String> {
+    validate_status(&status)?;
     let pool = crate::get_db_pool();
     
     let application = sqlx::query_as::<_, Application>(

@@ -5,6 +5,8 @@ use once_cell::sync::OnceCell;
 use sqlx::{sqlite::{SqliteConnectOptions, SqliteJournalMode, SqlitePoolOptions}, Pool, Sqlite};
 use std::sync::Arc;
 use std::str::FromStr;
+use tauri::path::BaseDirectory;
+use tauri::Manager;
 
 mod commands;
 mod models;
@@ -16,32 +18,69 @@ use commands::calendar;
 // Global database pool
 static DB_POOL: OnceCell<Arc<Pool<Sqlite>>> = OnceCell::new();
 
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Initialize database
-    let options = SqliteConnectOptions::from_str("sqlite://boussole.db")?
+async fn init_database(app_handle: &tauri::AppHandle) -> Result<(), String> {
+    let app_data_dir = app_handle.path().resolve("", BaseDirectory::AppData)
+        .map_err(|e| e.to_string())?;
+    let db_path = app_data_dir.join("boussole.db");
+
+    std::fs::create_dir_all(&app_data_dir)
+        .map_err(|e| format!("Failed to create app data dir: {}", e))?;
+
+    // Safe path conversion without unwrap
+    let db_str = db_path.to_str()
+        .ok_or_else(|| "Database path contains invalid (non-UTF8) characters".to_string())?;
+    let db_url = format!("sqlite://{}", db_str);
+
+    let options = SqliteConnectOptions::from_str(&db_url)
+        .map_err(|e| e.to_string())?
         .create_if_missing(true)
         .journal_mode(SqliteJournalMode::Wal);
 
     let pool = SqlitePoolOptions::new()
         .max_connections(5)
         .connect_with(options)
-        .await?;
-    
-    // Run migrations
+        .await
+        .map_err(|e| format!("Failed to connect to database: {}", e))?;
+
     sqlx::migrate!("./migrations")
         .run(&pool)
-        .await?;
-    
-    let pool = Arc::new(pool);
-    DB_POOL.set(pool.clone()).unwrap();
+        .await
+        .map_err(|e| format!("Migration failed: {}", e))?;
 
-    // Initialize encryption
-    if let Err(e) = crypto::init_encryption() {
-        eprintln!("Warning: Failed to initialize encryption: {}", e);
-    }
+    DB_POOL.set(Arc::new(pool))
+        .map_err(|_| "Database already initialized".to_string())?;
 
+    // Encryption failure is now fatal - no encrypted data is safe without it
+    crypto::init_encryption()
+        .map_err(|e| format!("Failed to initialize encryption (fatal): {}", e))?;
+
+    Ok(())
+}
+
+fn main() {
     tauri::Builder::default()
+        .setup(|app| {
+            let app_handle = app.handle().clone();
+            let (tx, rx) = std::sync::mpsc::channel::<Result<(), String>>();
+
+            // Spawn a dedicated thread with its own Tokio runtime to init DB.
+            // This avoids any conflict with Tauri's internal async runtime and
+            // ensures DB is fully ready before any command can be invoked.
+            std::thread::spawn(move || {
+                let rt = tokio::runtime::Runtime::new()
+                    .expect("Failed to create Tokio runtime for DB init");
+                let result = rt.block_on(init_database(&app_handle));
+                let _ = tx.send(result);
+            });
+
+            // Block setup until DB is fully initialized
+            rx.recv()
+                .map_err(|e| e.to_string())?
+                .map_err(|e| Box::<dyn std::error::Error>::from(e))?;
+
+            println!("Database initialized successfully");
+            Ok(())
+        })
         .invoke_handler(tauri::generate_handler![
             job_listings::create_job_listing,
             job_listings::get_job_listings,
@@ -76,10 +115,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
-
-    Ok(())
 }
 
 pub fn get_db_pool() -> Arc<Pool<Sqlite>> {
-    DB_POOL.get().unwrap().clone()
+    DB_POOL.get()
+        .expect("Database pool not initialized — this is a bug")
+        .clone()
 }

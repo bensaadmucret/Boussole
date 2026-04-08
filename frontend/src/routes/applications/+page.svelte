@@ -52,10 +52,9 @@
   }
   
   onMount(async () => {
-    if ($applications.length === 0) {
-      const data = await getApplications();
-      applications.set(data);
-    }
+    // Always refresh applications to ensure newly created ones appear
+    const data = await getApplications();
+    applications.set(data);
   });
   
   function getApplicationsByStatus(status: string) {
