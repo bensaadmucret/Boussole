@@ -47,6 +47,34 @@
       addTag();
     }
   }
+
+  function setToday() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    formData.datePosted = `${day}/${month}/${year}`;
+  }
+
+  function normalizeDateInput(value: string): string | null {
+    const trimmed = value.trim();
+
+    if (!trimmed) return null;
+
+    const isoMatch = trimmed.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (isoMatch) {
+      const [, year, month, day] = isoMatch;
+      return `${year}-${month}-${day}`;
+    }
+
+    const frenchMatch = trimmed.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    if (frenchMatch) {
+      const [, day, month, year] = frenchMatch;
+      return `${year}-${month}-${day}`;
+    }
+
+    return null;
+  }
   
   async function handleSubmit(e: Event) {
     e.preventDefault();
@@ -58,6 +86,14 @@
     
     isSubmitting = true;
     error = '';
+
+    const normalizedDatePosted = normalizeDateInput(formData.datePosted);
+
+    if (formData.datePosted && !normalizedDatePosted) {
+      error = 'Format de date invalide. Utilisez JJ/MM/AAAA.';
+      isSubmitting = false;
+      return;
+    }
     
     try {
       await createJobListing({
@@ -72,7 +108,7 @@
         sourceSite: formData.sourceSite || 'Autre',
         sourceUrl: formData.sourceUrl,
         description: formData.description,
-        datePosted: formData.datePosted || null
+        datePosted: normalizedDatePosted
       });
       
       goto('/listings');
@@ -311,15 +347,28 @@
         </div>
         
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-1">
-            <Calendar class="w-4 h-4" />
-            Date de publication
-          </label>
+          <div class="flex items-center justify-between gap-3 mb-1">
+            <label for="date-posted" class="block text-sm font-medium text-gray-700 flex items-center gap-1">
+              <Calendar class="w-4 h-4" />
+              Date de publication
+            </label>
+            <button
+              type="button"
+              onclick={setToday}
+              class="text-xs font-medium text-primary-700 hover:text-primary-800 transition"
+            >
+              Aujourd'hui
+            </button>
+          </div>
           <input
-            type="date"
+            id="date-posted"
+            type="text"
             bind:value={formData.datePosted}
+            inputmode="numeric"
+            placeholder="JJ/MM/AAAA"
             class="input-field w-48"
           />
+          <p class="mt-1 text-xs text-gray-500">Format conseillé : JJ/MM/AAAA. Laissez vide si vous ne connaissez pas la date.</p>
         </div>
       </div>
     </div>

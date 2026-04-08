@@ -1,12 +1,13 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import { LayoutDashboard, FileText, Briefcase, Calendar, Sparkles, Settings } from 'lucide-svelte';
+  import { LayoutDashboard, FileText, Briefcase, Calendar, Sparkles, Settings, File } from 'lucide-svelte';
   import '../app.css';
 
   const navItems = [
     { path: '/', label: 'Tableau de bord', icon: LayoutDashboard },
     { path: '/listings', label: 'Annonces', icon: FileText },
     { path: '/applications', label: 'Candidatures', icon: Briefcase },
+    { path: '/documents', label: 'Documents', icon: File },
     { path: '/calendar', label: 'Agenda', icon: Calendar },
     { path: '/ai', label: 'Assistant IA', icon: Sparkles },
   ];

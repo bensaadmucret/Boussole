@@ -1,6 +1,14 @@
 use chrono::NaiveDate;
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize, Serializer};
 use sqlx::FromRow;
+
+fn serialize_stack_as_array<S>(stack: &str, serializer: S) -> Result<S::Ok, S::Error>
+where
+    S: Serializer,
+{
+    let parsed: Vec<String> = serde_json::from_str(stack).unwrap_or_default();
+    parsed.serialize(serializer)
+}
 
 #[derive(Debug, Serialize, Deserialize, FromRow)]
 #[serde(rename_all = "camelCase")]
@@ -14,7 +22,8 @@ pub struct JobListing {
     pub salary_currency: String,
     pub contract_type: String,
     pub remote_type: String,
-    pub stack: String, // JSON array
+    #[serde(serialize_with = "serialize_stack_as_array")]
+    pub stack: String, // JSON array stored as string, serialized as array
     pub source_site: String,
     pub source_url: String,
     pub description: String,

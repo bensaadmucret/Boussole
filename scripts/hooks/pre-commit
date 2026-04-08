@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+# Pre-commit hook — détecte les secrets avant chaque commit
+
+set -euo pipefail
+
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
+FOUND=0
+
+# Fichiers stagés (hors suppressions)
+STAGED=$(git diff --cached --name-only --diff-filter=d)
+
+if [ -z "$STAGED" ]; then
+  exit 0
+fi
+
+check() {
+  local label="$1"
+  local pattern="$2"
+
+  while IFS= read -r file; do
+    # Ignore les fichiers binaires et les fichiers de lock
+    case "$file" in
+      *.lock|*.png|*.jpg|*.jpeg|*.gif|*.ico|*.woff*|*.ttf|*.eot) continue ;;
+    esac
+
+    if git show ":$file" 2>/dev/null | grep -qiE "$pattern"; then
+      echo -e "${RED}[SECRET]${NC} ${YELLOW}${label}${NC} détecté dans : $file"
+      FOUND=1
+    fi
+  done <<< "$STAGED"
+}
+
+echo "🔍 Vérification des secrets..."
+
+# OAuth / Client secrets
+check "Google Client Secret"     'GOCSPX-[A-Za-z0-9_\-]{28,}'
+check "Google OAuth client_id"   '[0-9]{12}-[a-z0-9]{32}\.apps\.googleusercontent\.com'
+check "Clé API Google"           'AIza[0-9A-Za-z_\-]{35}'
+
+# Tokens génériques
+check "Bearer token"             'Bearer [A-Za-z0-9._~+/\-]{20,}'
+check "Token secret générique"   "(secret|token|api_key|apikey|password|passwd|pwd)\s*[:=]\s*['\"]?[A-Za-z0-9+/=_\-]{16,}"
+
+# AWS
+check "AWS Access Key"           'AKIA[0-9A-Z]{16}'
+check "AWS Secret Key"           'aws[_\-]?secret[_\-]?access[_\-]?key\s*[:=]\s*[A-Za-z0-9+/]{40}'
+
+# Clés privées
+check "Clé privée PEM"           '-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----'
+
+# JWT
+check "JWT hardcodé"             'eyJ[A-Za-z0-9_\-]{20,}\.[A-Za-z0-9_\-]{20,}\.[A-Za-z0-9_\-]{20,}'
+
+# Variables d'environnement avec valeur
+check "Variable .env avec valeur" '^[A-Z_]+(SECRET|KEY|TOKEN|PASSWORD|PASSWD|API_KEY)\s*=\s*.{8,}'
+
+if [ "$FOUND" -eq 1 ]; then
+  echo ""
+  echo -e "${RED}❌ Commit bloqué — des secrets ont été détectés.${NC}"
+  echo "   → Retire les valeurs sensibles et utilise des variables d'environnement."
+  echo "   → Pour ignorer (dangereux) : git commit --no-verify"
+  exit 1
+fi
+
+echo -e "${GREEN}✅ Aucun secret détecté.${NC}"
+exit 0

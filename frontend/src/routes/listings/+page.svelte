@@ -71,30 +71,45 @@
   </div>
   
   <!-- Search & Filters -->
-  <div class="card mb-6">
-    <div class="flex gap-4">
-      <div class="flex-1 relative">
-        <Search class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-        <input
-          type="text"
-          bind:value={searchQuery}
-          placeholder="Rechercher par société, titre, stack..."
-          class="input-field pl-10"
-        />
-      </div>
-      
-      <select bind:value={selectedContract} class="input-field w-40">
-        <option value="">Tous contrats</option>
-        {#each contractTypes.slice(1) as type}
-          <option value={type}>{type}</option>
-        {/each}
-      </select>
-      
-      <select bind:value={selectedRemote} class="input-field w-40">
-        {#each remoteTypes as type}
-          <option value={type.value}>{type.label}</option>
-        {/each}
-      </select>
+  <div class="card mb-6 space-y-4">
+    <div class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_200px_200px]">
+      <label class="block min-w-0">
+        <span class="block text-sm font-medium text-gray-700 mb-2">Recherche</span>
+        <div class="relative">
+          <Search class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+          <input
+            type="text"
+            bind:value={searchQuery}
+            placeholder="Société, titre, stack..."
+            class="input-field pl-12"
+          />
+        </div>
+      </label>
+
+      <label class="block">
+        <span class="block text-sm font-medium text-gray-700 mb-2">Type de contrat</span>
+        <select bind:value={selectedContract} class="input-field select-field">
+          <option value="">Tous contrats</option>
+          {#each contractTypes.slice(1) as type}
+            <option value={type}>{type}</option>
+          {/each}
+        </select>
+      </label>
+
+      <label class="block">
+        <span class="block text-sm font-medium text-gray-700 mb-2">Télétravail</span>
+        <select bind:value={selectedRemote} class="input-field select-field">
+          {#each remoteTypes as type}
+            <option value={type.value}>{type.label}</option>
+          {/each}
+        </select>
+      </label>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500">
+      <span class="rounded-full bg-primary-50 px-3 py-1 text-primary-700 font-medium">Recherche rapide</span>
+      <span class="rounded-full bg-gray-50 px-3 py-1">Contrats clairs</span>
+      <span class="rounded-full bg-gray-50 px-3 py-1">Télétravail lisible</span>
     </div>
   </div>
   

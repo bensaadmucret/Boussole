@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="100" y1="72" x2="412" y2="440" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#a3e635"/>
+      <stop offset="1" stop-color="#65a30d"/>
+    </linearGradient>
+    <linearGradient id="ring" x1="164" y1="148" x2="348" y2="364" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f7fee7"/>
+      <stop offset="1" stop-color="#ecfccb"/>
+    </linearGradient>
+    <linearGradient id="needle" x1="214" y1="168" x2="298" y2="344" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#65a30d"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="120" fill="url(#bg)"/>
+
+  <circle cx="256" cy="256" r="162" fill="#f7fee7" opacity="0.14"/>
+  <circle cx="256" cy="256" r="154" fill="url(#ring)"/>
+  <circle cx="256" cy="256" r="146" fill="#ffffff" stroke="#d9f99d" stroke-width="6"/>
+
+  <circle cx="256" cy="256" r="112" fill="#f8fafc" stroke="#ecfccb" stroke-width="4"/>
+  <circle cx="256" cy="256" r="84" fill="#ffffff" stroke="#d9f99d" stroke-width="2"/>
+
+  <path d="M256 154L288 256L256 240L224 256L256 154Z" fill="url(#needle)"/>
+  <path d="M256 358L288 256L256 272L224 256L256 358Z" fill="#d9f99d"/>
+  <path d="M256 154L273 255L256 240L239 255L256 154Z" fill="#ffffff" opacity="0.95"/>
+  <path d="M256 358L273 257L256 272L239 257L256 358Z" fill="#ecfccb" opacity="0.95"/>
+
+  <circle cx="256" cy="256" r="24" fill="#3f6212"/>
+  <circle cx="256" cy="256" r="10" fill="#f7fee7"/>
+  <circle cx="256" cy="256" r="4" fill="#84cc16"/>
+
+  <path d="M256 114V144" stroke="#65a30d" stroke-width="10" stroke-linecap="round"/>
+  <path d="M256 368V398" stroke="#65a30d" stroke-width="10" stroke-linecap="round"/>
+  <path d="M114 256H144" stroke="#65a30d" stroke-width="10" stroke-linecap="round"/>
+  <path d="M368 256H398" stroke="#65a30d" stroke-width="10" stroke-linecap="round"/>
+
+  <path d="M256 158V184" stroke="#84cc16" stroke-width="12" stroke-linecap="round"/>
+  <path d="M256 328V354" stroke="#84cc16" stroke-width="12" stroke-linecap="round"/>
+  <path d="M158 256H184" stroke="#84cc16" stroke-width="12" stroke-linecap="round"/>
+  <path d="M328 256H354" stroke="#84cc16" stroke-width="12" stroke-linecap="round"/>
+</svg>

@@ -1,7 +1,7 @@
 -- Migration: Create documents table for multi-profile CVs
 CREATE TABLE IF NOT EXISTS documents (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    type TEXT NOT NULL, -- 'cv', 'cover_letter', 'other'
+    doc_type TEXT NOT NULL, -- 'cv', 'cover_letter', 'other'
     profile_name TEXT, -- e.g., 'Lead Dev', 'Chef de projet IT', 'DevOps'
     name TEXT NOT NULL,
     content BLOB,
@@ -11,5 +11,5 @@ CREATE TABLE IF NOT EXISTS documents (
 );
 
 -- Indexes
-CREATE INDEX idx_documents_type ON documents(type);
+CREATE INDEX idx_documents_doc_type ON documents(doc_type);
 CREATE INDEX idx_documents_profile ON documents(profile_name);

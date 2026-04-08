@@ -25,11 +25,31 @@ Boussole est une application desktop légère, sécurisée et 100% locale conçu
 - **🌐 IA** : Google Gemini Flash API
 - **📦 Distribution** : Binaires natifs Windows / macOS / Linux
 
-## 🚀 Statut
+## �️ Git Hooks (sécurité)
+
+Un hook pre-commit détecte automatiquement les secrets (clés API, tokens OAuth, clés privées…) avant chaque commit.
+
+```bash
+bash scripts/install-hooks.sh
+```
+
+> À exécuter une fois après le clone du repo. Le hook bloque tout commit contenant un secret détecté.
+
+## �🔐 Connexion Google Calendar
+
+Pour connecter un compte Google Calendar, consulte la doc dédiée : [Google Calendar OAuth](docs/google-calendar-oauth.md).
+
+## Aperçu
+
+<p align="center">
+  <img src="docs/screenshots/home.png" alt="Aperçu de Boussole" width="100%" />
+</p>
+
+## Statut
 
 🚧 En développement actif. Architecture définie, MVP en cours.
 
-## 📜 Licence & Vie privée
+## Licence & Vie privée
 
 Boussole stocke l'intégralité de vos données localement. Aucune donnée n'est envoyée vers des serveurs tiers, sauf lors de l'appel explicite à l'API Gemini pour la génération de texte (configurable). Respect strict du RGPD : export complet, suppression irréversible, chiffrement au repos.
 
