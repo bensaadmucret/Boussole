@@ -11,7 +11,7 @@ mod commands;
 mod models;
 mod crypto;
 
-use commands::{job_listings, applications, documents, ai, browser};
+use commands::{job_listings, applications, documents, ai, browser, reports};
 use commands::calendar;
 
 // Global database pool
@@ -112,7 +112,8 @@ fn main() {
             ai::generate_cover_letter,
             ai::get_gemini_config,
             ai::save_gemini_config,
-            browser::open_external_url
+            browser::open_external_url,
+            reports::save_report_pdf
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

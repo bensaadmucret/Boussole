@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import { LayoutDashboard, FileText, Briefcase, Calendar, Sparkles, Settings, File } from 'lucide-svelte';
+  import { LayoutDashboard, FileText, Briefcase, Calendar, Sparkles, Settings, File, ClipboardList } from 'lucide-svelte';
   import '../app.css';
 
   const navItems = [
@@ -10,6 +10,7 @@
     { path: '/documents', label: 'Documents', icon: File },
     { path: '/calendar', label: 'Agenda', icon: Calendar },
     { path: '/ai', label: 'Assistant IA', icon: Sparkles },
+    { path: '/reports', label: 'Rapports FT', icon: ClipboardList },
   ];
 
   $: currentPath = $page.url.pathname;

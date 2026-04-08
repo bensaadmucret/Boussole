@@ -322,27 +322,30 @@ export async function searchListings(query: string, filters: ListingFilters) {
 
 ---
 
-### Phase 3 : Kanban Candidatures 🚧
-- [ ] Tableau Kanban drag & drop
-- [ ] Liaison annonces → candidatures
-- [ ] Alertes doublons société
+### Phase 3 : Kanban Candidatures ✅
+- [x] Tableau Kanban drag & drop
+- [x] Liaison annonces → candidatures
+- [x] Alertes doublons société
 - [ ] Historique des actions
 
 ---
 
-### Phase 4 : Documents & IA
-- [ ] Gestion CV multi-profiles (Lead Dev, Chef de projet, DevOps, etc.)
-- [ ] Intégration Gemini API
-- [ ] Génération lettres de motivation
+### Phase 4 : Documents & IA ✅
+- [x] Gestion CV multi-profiles (Lead Dev, Chef de projet, DevOps, etc.)
+- [x] Intégration Gemini API (gemini-1.5-flash, clé dans header HTTP)
+- [x] Génération lettres de motivation (CV et entreprise optionnels)
 - [ ] Analyse matching offre/CV
 
 ---
 
-### Phase 5 : Calendar & Export
-- [ ] OAuth Google Calendar
-- [ ] Synchronisation entretiens
-- [ ] Génération rapports PDF France Travail
-- [ ] Export données complètes
+### Phase 5 : Calendar & Export 🚧
+- [x] OAuth Google Calendar (config stockée chiffrée)
+- [x] Synchronisation entretiens (calendrier unifié)
+- [x] Génération rapports PDF France Travail
+  - Route `/reports` avec sélecteur de période
+  - jsPDF + autotable (tableau formaté, header FT)
+  - Sauvegarde dans dossier Téléchargements via commande `save_report_pdf`
+- [ ] Export données complètes (JSON)
 
 ---
 
